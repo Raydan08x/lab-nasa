@@ -47,7 +47,6 @@ function iniciarApp() {
 
     buscarApod(fechaHoy);
     mostrarFavoritos();
-   
 
     btnBuscar.addEventListener("click", function () {
         buscarPorFecha();
@@ -157,7 +156,9 @@ function agregarFavorito() {
         return;
     }
 
-    const existe = favoritos.some(fav => fav.fecha === apodActual.fecha);
+    const existe = favoritos.some(function (fav) {
+        return fav.fecha === apodActual.fecha;
+    });
 
     if (existe) {
         mensaje.textContent = "Esta imagen ya está en tus favoritos.";
@@ -166,6 +167,7 @@ function agregarFavorito() {
 
     favoritos.push(apodActual);
     localStorage.setItem("favoritosAPOD", JSON.stringify(favoritos));
+
     mensaje.textContent = "Agregado a favoritos.";
     mostrarFavoritos();
 }
@@ -178,22 +180,52 @@ function mostrarFavoritos() {
         return;
     }
 
-    favoritos.forEach(apod => {
+    favoritos.forEach(function (apod) {
         const divFavorito = document.createElement("div");
         divFavorito.classList.add("favorito-item");
+
+        let mediaFavorito = "";
+
+        if (apod.tipo === "image") {
+            mediaFavorito = `<img src="${apod.url}" alt="${apod.titulo}" width="100">`;
+        } else if (apod.tipo === "video") {
+            mediaFavorito = `<p>Video APOD</p>`;
+        }
+
         divFavorito.innerHTML = `
-            <img src="${apod.url}" alt="${apod.titulo}" width="100">
+            ${mediaFavorito}
             <p>${apod.titulo} (${apod.fecha})</p>
+            <button class="btn-eliminar">Quitar de favoritos</button>
         `;
 
-        divFavorito.onclick = () => {
+        divFavorito.addEventListener("click", function () {
+            apodActual = apod;
+            fechaInput.value = apod.fecha;
             crearCardApod(apod);
-            window.scrollTo(0, 0); // Sube al inicio de la página
-        };
+            window.scrollTo(0, 0);
+        });
+
+        const btnEliminar = divFavorito.querySelector(".btn-eliminar");
+
+        btnEliminar.addEventListener("click", function (evento) {
+            evento.stopPropagation();
+            quitarFavorito(apod.fecha);
+        });
 
         listaFavoritos.appendChild(divFavorito);
     });
 }
 
+function quitarFavorito(fecha) {
+    favoritos = favoritos.filter(function (apod) {
+        return apod.fecha !== fecha;
+    });
+
+    localStorage.setItem("favoritosAPOD", JSON.stringify(favoritos));
+
+    mostrarFavoritos();
+
+    mensaje.textContent = "Se quitó de favoritos.";
+}
 
 iniciarApp();
