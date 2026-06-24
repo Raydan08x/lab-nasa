@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA APOD - Favoritos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <header>
+        <h1>Astronomy Picture of the Day</h1>
+        <p>Explora imágenes astronómicas de la NASA y guarda tus favoritas.</p>
+    </header>
+
+    <main class="contenedor">
+
+        <section class="buscador">
+            <label for="fecha">Selecciona una fecha:</label>
+            <input type="date" id="fecha">
+
+            <button id="btnBuscar">Buscar APOD</button>
+            <button id="btnHoy">Foto del día</button>
+        </section>
+
+        <section class="mensaje" id="mensaje"></section>
+
+        <section class="container my-4">
+
+            <div class="card bg-dark text-white shadow">
+
+                <div class="card-header text-center">
+                    <h2 id="titulo" class="card-title mb-0">Cargando...</h2>
+                </div>
+
+                <div class="card-body">
+
+                    <p id="fechaApod" class="text-warning fw-bold"></p>
+
+                    <div id="mediaContainer" class="text-center mb-3">
+                        <!-- Aquí JavaScript va a poner la imagen o video -->
+                    </div>
+
+                    <p id="explicacion" class="card-text">
+                        <!-- Aquí JavaScript va a poner la explicación -->
+                    </p>
+
+                    <button id="btnFavorito" class="btn btn-warning w-100">
+                        Guardar en favoritos
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="favoritos">
+            <h2>Favoritos guardados</h2>
+            <div id="listaFavoritos" class="lista-favoritos"></div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Proyecto usando la API APOD de la NASA</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
